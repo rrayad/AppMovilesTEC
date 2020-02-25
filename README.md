@@ -22,3 +22,15 @@ git status
 `
 git add <.> <file>
 `
+
+cancela todos los cambios
+
+git checkout <.>
+git checkout <Branch>
+git checkout <file>
+
+save 
+git stash
+
+get
+git stash pop
