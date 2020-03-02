@@ -5,6 +5,7 @@ import {createStackNavigator} from 'react-navigation-stack'
 import Login from './screens/Login'
 import Home from './screens/Home'
 import Details from './screens/Details'
+import Info from './screens/Info'
 
 
 
@@ -16,11 +17,11 @@ const AppNavigator = createStackNavigator(
   {
     Login:Login,    
     Home:Home,
-    Details:Details
-    
+    Details:Details,
+    Info:Info
   },
   {
-    initialRouteName: "Login"
+    initialRouteName: "Home"
   }
 );
 
