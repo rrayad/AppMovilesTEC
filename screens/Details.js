@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, {Component} from 'react';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
+
 import {
   ActivityIndicator,
   StyleSheet,
@@ -18,23 +19,23 @@ import {
   FooterTab,
   Footer,
   Card,
-  Image
+  CardItem,
+  Left,
 } from 'native-base';
 
 export default class Details extends Component {
   constructor(props) {
-    super(props);    
-    const { navigation } = props;
-    global.navigation = navigation,
-    global.pictures = global.navigation.getParam("pictures")
-    console.log(global.pictures);
-    this.state = {
-      loading: false,
-      dataSource: [],
-    };
+    super(props);
+    const {navigation} = props;
+    (global.navigation = navigation),
+      (global.pictures = global.navigation.getParam('pictures')),
+      (this.state = {
+        loading: false,
+        dataSource: [],
+      });
   }
 
-  static navigationOptions = ({navigation}) => {    
+  static navigationOptions = ({navigation}) => {
     return {
       /*
       headerTitle: (
@@ -65,13 +66,13 @@ export default class Details extends Component {
   };
   renderItem = data => (
     <TouchableOpacity>
-      <Text style={styles.lightText}>{global.navigation.getParam("description")}</Text>
-      <Text> aqui</Text>
+      <Text style={styles.lightText}>
+        {global.navigation.getParam('description')}
+      </Text>
     </TouchableOpacity>
   );
 
   render() {
-    
     if (this.state.loading) {
       return (
         <View>
@@ -85,33 +86,48 @@ export default class Details extends Component {
         <Content>
           <Card
             transparent
-            style={{alignItems: 'center', backgroundColor: '#F1F1F1'}}>
-            <Text>{global.navigation.getParam("title")}</Text>
-          </Card>
-          <Thumbnail
-            square
-            source={{uri: global.navigation.getParam("pictures")}}
-            style={{margin: 10, alignItems: 'center', height: 200, width: 300}}
+            style={{alignItems: 'center', backgroundColor: '#F1F1F1'}}></Card>
+          <FlatList
+            horizontal={true}
+            data={global.navigation.getParam('pictures')}
+            renderItem={({item}) => (
+              <Content>
+                <Card style={{elevation: 3}}>
+                  <CardItem cardBody>
+                    <Thumbnail
+                      style={{height: 300, width: 400, flex: 1}}
+                      source={{uri: item}}
+                    />
+                  </CardItem>
+                </Card>
+              </Content>
+            )}
           />
           <Card transparent style={{paddingLeft: 10}}>
-            <Text style={{fontSize: 12}}>{global.navigation.getParam("description")}</Text>
+            <Text style={{fontSize: 12}}>
+              {global.navigation.getParam('description')}
+            </Text>
           </Card>
 
-          <View>
-          <Image source={{uri: global.pictures[0]}} style={{height: 200, width: null, flex: 1}}/>
-          </View>
+          <View></View>
         </Content>
         <Footer>
           <FooterTab>
             <Button transparent>
               <Icon name="thumbs-up" />
-              <Text>12</Text>
+              <Text>{global.navigation.getParam('likes')}</Text>
+            </Button>
+          </FooterTab>
+          <FooterTab>
+            <Button transparent>
+              <Icon name="thumbs-down" />
+              <Text>{global.navigation.getParam('unlikes')}</Text>
             </Button>
           </FooterTab>
           <FooterTab>
             <Button transparent>
               <Icon name="chatbubbles" />
-              <Text>12</Text>
+              <Text>{global.navigation.getParam('comments')}</Text>
             </Button>
           </FooterTab>
           <FooterTab>

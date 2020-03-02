@@ -17,6 +17,7 @@ import {
   CardItem,
   Thumbnail,
 } from 'native-base';
+const imagenDemo = 'https://pngimg.com/uploads/macbook/macbook_PNG58.png';
 
 export default class Home extends Component {
   constructor(props) {
@@ -85,7 +86,7 @@ export default class Home extends Component {
         global.getData = responseJson;
         this.setState({getData: responseJson});
       })
-      .catch(error => console.log(error)); //to catch the errors if any
+      .catch(error => console.log("no hay conexion")); //to catch the errors if any
     ////////////////////////////////////////////////////////////////////////////////////////////////
   }
 
@@ -205,6 +206,9 @@ const products = [
     seller: '5e5440d6c62ef1fb1892ee5c',
     pictures: [
       'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
     ],
     created: '2020-02-24T15:15:00Z',
     updated: 'Mon, 24 Feb 2020 16:24:32 GMT',
@@ -233,6 +237,8 @@ const products = [
     seller: '5e5440d6c62ef1fb1892ee5c',
     pictures: [
       'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
     ],
     created: '2020-02-24T15:15:00Z',
     updated: 'Mon, 24 Feb 2020 16:24:32 GMT',
@@ -260,6 +266,8 @@ const products = [
     ticketcost: '1000',
     seller: '5e5440d6c62ef1fb1892ee5c',
     pictures: [
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
       'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
     ],
     created: '2020-02-24T15:15:00Z',
