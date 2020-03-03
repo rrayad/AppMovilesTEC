@@ -6,6 +6,10 @@ import Login from './screens/Login'
 import Home from './screens/Home'
 import Details from './screens/Details'
 import Info from './screens/Info'
+import AddItem from './screens/addItem'
+import SimpleHome from './screens/simpleHome'
+import List from './screens/List'
+
 
 
 
@@ -18,10 +22,14 @@ const AppNavigator = createStackNavigator(
     Login:Login,    
     Home:Home,
     Details:Details,
-    Info:Info
+    Info:Info,
+    AddItem:AddItem,
+    SimpleHome:SimpleHome,
+    List:List
+
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "SimpleHome"
   }
 );
 

@@ -17,6 +17,7 @@ import {
   CardItem,
   Thumbnail,
 } from 'native-base';
+
 const imagenDemo = 'https://pngimg.com/uploads/macbook/macbook_PNG58.png';
 
 export default class Home extends Component {
@@ -91,8 +92,6 @@ export default class Home extends Component {
   }
 
   render() {
-    
-
     return (
       <Container>
         <Header style={{top: -40, height: 140}}>

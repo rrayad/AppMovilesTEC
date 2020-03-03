@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Animated,
   Keyboard,
-  Alert,
 } from 'react-native';
 import styles, {IMAGE_HEIGHT, IMAGE_HEIGHT_SMALL} from './styles';
 import logo from '../images/login/logo.png';

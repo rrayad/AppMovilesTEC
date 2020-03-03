@@ -1,0 +1,21 @@
+{
+  "productos": [
+    {
+      "type": "Mejores Vendidos",
+      "image": "https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png",
+      "description": "description"
+    },
+    {
+      "type": "Mejores Vendidos",
+      "image": "https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png",
+      "description": "description"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "name": "Ruben",
+      "password": "1234"
+    }
+  ]
+}

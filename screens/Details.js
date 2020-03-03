@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
   View,
+  TouchableHighlight,
 } from 'react-native';
 import {
   Container,
@@ -20,7 +21,7 @@ import {
   Footer,
   Card,
   CardItem,
-  Left,
+  Badge,
 } from 'native-base';
 
 export default class Details extends Component {
@@ -32,6 +33,7 @@ export default class Details extends Component {
       (this.state = {
         loading: false,
         dataSource: [],
+        counter: 0,
       });
   }
 
@@ -42,7 +44,6 @@ export default class Details extends Component {
         <Thumbnail style={{marginTop:190, height: 200, width: 200, flex: 1}}  square large source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }} />
       ),
       */
-      title: JSON.stringify(navigation.getParam('title')),
       headerStyle: {
         backgroundColor: '#fff',
       },
@@ -64,13 +65,21 @@ export default class Details extends Component {
       />
     );
   };
-  renderItem = data => (
-    <TouchableOpacity>
-      <Text style={styles.lightText}>
-        {global.navigation.getParam('description')}
-      </Text>
-    </TouchableOpacity>
-  );
+
+  addTicket = tipo => {
+    if (tipo == 'plus') {
+      this.setState({
+        counter: this.state.counter + 1,
+      });
+    } else {
+      if (this.state.counter < 1) {
+      } else {
+        this.setState({
+          counter: this.state.counter - 1,
+        });
+      }
+    }
+  };
 
   render() {
     if (this.state.loading) {
@@ -80,13 +89,9 @@ export default class Details extends Component {
         </View>
       );
     }
-
     return (
       <Container style={{alignItems: 'center', backgroundColor: '#F1F1F1'}}>
         <Content>
-          <Card
-            transparent
-            style={{alignItems: 'center', backgroundColor: '#F1F1F1'}}></Card>
           <FlatList
             horizontal={true}
             data={global.navigation.getParam('pictures')}
@@ -103,10 +108,55 @@ export default class Details extends Component {
               </Content>
             )}
           />
-          <Card transparent style={{paddingLeft: 10}}>
-            <Text style={{fontSize: 12}}>
-              {global.navigation.getParam('description')}
-            </Text>
+          <Card style={{padding: 10}}>
+            <CardItem>
+              <Text>{global.navigation.getParam('title')}</Text>
+            </CardItem>
+            <CardItem>
+              <Text style={{fontSize: 13}}>
+                Fecha de vencimiento
+                <Text style={{color: 'red', fontSize: 13}}> 11h 23min</Text>
+                <Text style={{fontSize: 12}}> $100 por boleto</Text>
+              </Text>
+            </CardItem>
+            <CardItem style={{alignSelf: 'center'}}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.addTicket('minus');
+                }}>
+                <Icon
+                  name="remove"
+                  style={{fontSize: 40, color: 'blue', fontWeight: 'bold'}}
+                />
+              </TouchableOpacity>
+              <Text style={{fontSize: 35, width: 40, height: 40}}>
+                {this.state.counter}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  this.addTicket('plus');
+                }}>
+                <Icon
+                  name="add"
+                  style={{fontSize: 40, color: 'blue', fontWeight: 'bold'}}
+                />
+              </TouchableOpacity>
+            </CardItem>
+            <CardItem style={{alignSelf: 'center'}}>
+              <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+                Total: $200
+              </Text>
+            </CardItem>
+            <CardItem style={{alignSelf: 'center'}}>
+              <Button rounded warning>
+                <Text>Pagar</Text>
+              </Button>
+            </CardItem>
+            <CardItem>
+              <Text style={{fontSize: 15}}>
+                {global.navigation.getParam('description')}
+              </Text>
+            </CardItem>
           </Card>
 
           <View></View>
@@ -128,21 +178,6 @@ export default class Details extends Component {
             <Button transparent>
               <Icon name="chatbubbles" />
               <Text>{global.navigation.getParam('comments')}</Text>
-            </Button>
-          </FooterTab>
-          <FooterTab>
-            <Button transparent>
-              <Icon2 name="facebook-f" />
-            </Button>
-          </FooterTab>
-          <FooterTab>
-            <Button transparent>
-              <Icon2 name="twitter" />
-            </Button>
-          </FooterTab>
-          <FooterTab>
-            <Button transparent>
-              <Icon2 name="instagram" />
             </Button>
           </FooterTab>
         </Footer>
