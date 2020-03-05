@@ -33,13 +33,23 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+    console.log("iniciando peticion")
     ////////////////////////////////////////////[ GET INFO FROM DB ]////////////////////////////////////////////////////
-    fetch('https://366dd267.ngrok.io/productos')
+    fetch('https://api.scryfall.com/cards/named?fuzzy=Decimate',
+    {
+      method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        }
+    })
       .then(response => response.json())
       .then(responseJson => {
+        console.log(responseJson)
         this.setState({getProducts: responseJson})        
       })
-      .catch(error => console.log("no hay conexion")); 
+      .catch((error) => console.log('fetchToken error: ', error))
+    .done();
   }
 
 
@@ -52,7 +62,7 @@ export default class Home extends Component {
             <Card>
               <CardItem>
                 <Body>
-                  <Text style={{fontWeight:"bold"}}>{item.type}</Text>
+                  <Text style={{fontWeight:"bold"}}>{item.artist}</Text>
                 </Body>
               </CardItem>
               <CardItem>

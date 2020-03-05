@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, {Component} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
+import {Modal,TouchableHighlight} from 'react-native';
 import {
   Container,
   Header,
@@ -16,6 +17,8 @@ import {
   Card,
   CardItem,
   Thumbnail,
+  Fab,
+  Form
 } from 'native-base';
 
 const imagenDemo = 'https://pngimg.com/uploads/macbook/macbook_PNG58.png';
@@ -29,7 +32,11 @@ export default class Home extends Component {
 
     this.state = {
       loading: false,
-      modalVisible: false,
+
+      add1: false,
+      add2: false,      
+      add3: false,      
+
       getData: [],
     };
   }
@@ -69,6 +76,7 @@ export default class Home extends Component {
   };
 
   componentDidMount() {
+    //this.props.navigation.setParams({handleRemove: this.removeVehicle});
     ////////////////////////////////////////////[ GET INFO FROM DB ]////////////////////////////////////////////////////
     fetch('https://rifas.yobiss.com/raffles/list', {
       method: 'get',
@@ -91,9 +99,106 @@ export default class Home extends Component {
     ////////////////////////////////////////////////////////////////////////////////////////////////
   }
 
+  openMenu = () => {      
+    console.log(this.state.add2)  
+    this.setState({add2: !this.state.add2});
+  };
+  openMenu2 = () => {    
+    this.setState({add2: !this.state.add2});
+    this.setState({add3: !this.state.add3});
+  };
+
+  
   render() {
     return (
       <Container>
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.add1}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          
+          <Content>
+          <Form>
+            <Item>
+              <Input placeholder="Username" />
+            </Item>
+            <Item last>
+              <Input placeholder="Password" />
+            </Item>
+            <Item>
+            <TouchableHighlight
+                onPress={() => {
+                  this.setState({add1: false});
+                  this.setState({add2: true});                
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </Item>
+          </Form>
+        </Content>
+        </Modal> 
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.add2}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          
+          <Content>
+          <Form>
+            <Item>
+              <Input placeholder="Username2" />
+            </Item>
+            <Item last>
+              <Input placeholder="Password2" />
+            </Item>
+            <Item>
+            <TouchableHighlight
+                onPress={() => {
+                  this.setState({add2: false});
+                  this.setState({add3: true});
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </Item>
+          </Form>
+        </Content>
+        </Modal> 
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.add3}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          
+          <Content>
+          <Form>
+            <Item>
+              <Input placeholder="Username3" />
+            </Item>
+            <Item last>
+              <Input placeholder="Password4" />
+            </Item>
+            <Item>
+            <TouchableHighlight
+                onPress={() => {                  
+                  this.setState({add3: false});
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </Item>
+          </Form>
+        </Content>
+        </Modal> 
+
         <Header style={{top: -40, height: 140}}>
           <FlatList
             horizontal={true}
@@ -150,6 +255,32 @@ export default class Home extends Component {
             )}
           />
         </Content>
+        <Fab
+          active={this.state.active}
+          direction="up"
+          containerStyle={{}}
+          style={{backgroundColor: '#1786FF'}}
+          position="bottomRight"
+          onPress={() => this.setState({active: !this.state.active})}>
+          <Icon large name="logo-buffer" />
+
+          <Button
+            onPress={() => {
+              this.setState({add1: true});
+            }}
+            style={{backgroundColor: '#34A34F'}}>
+            <Icon name="stats" />
+          </Button>
+
+          <Button style={{backgroundColor: '#DD5144'}}>
+            <Icon name="cash" />
+          </Button>
+
+          <Button large style={{backgroundColor: '#3B5998'}}>
+            <Icon name="add" style={{fontSize: 30}} />
+          </Button>
+        </Fab>
+       
       </Container>
     );
   }
