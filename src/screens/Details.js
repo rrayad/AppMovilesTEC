@@ -1,14 +1,13 @@
 /* eslint-disable */
 import React, {Component} from 'react';
-import Icon2 from 'react-native-vector-icons/FontAwesome5';
-
+import moment from 'moment';
 import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
   FlatList,
   View,
-  TouchableHighlight,
+  Animated,
 } from 'react-native';
 import {
   Container,
@@ -21,7 +20,6 @@ import {
   Footer,
   Card,
   CardItem,
-  Badge,
 } from 'native-base';
 
 export default class Details extends Component {
@@ -34,10 +32,11 @@ export default class Details extends Component {
         loading: false,
         dataSource: [],
         counter: 0,
+        total: 0,
       });
   }
 
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = () => {
     return {
       /*
       headerTitle: (
@@ -81,7 +80,7 @@ export default class Details extends Component {
     }
   };
 
-  render() {
+  render() {    
     if (this.state.loading) {
       return (
         <View>
@@ -100,7 +99,7 @@ export default class Details extends Component {
                 <Card style={{elevation: 3}}>
                   <CardItem cardBody>
                     <Thumbnail
-                      style={{height: 300, width: 400, flex: 1}}
+                      style={{height: 200, width: 400, flex: 1}}
                       source={{uri: item}}
                     />
                   </CardItem>
@@ -108,16 +107,46 @@ export default class Details extends Component {
               </Content>
             )}
           />
-          <Card style={{padding: 10}}>
+          <Card style={{padding: 5}}>
             <CardItem>
               <Text>{global.navigation.getParam('title')}</Text>
             </CardItem>
             <CardItem>
-              <Text style={{fontSize: 13}}>
+              <Text style={{fontSize: 12}}>
                 Fecha de vencimiento
-                <Text style={{color: 'red', fontSize: 13}}> 11h 23min</Text>
-                <Text style={{fontSize: 12}}> $100 por boleto</Text>
+                <Text style={{color: 'red', fontSize: 13}}>
+                  {' '}
+                  {moment(global.navigation.getParam('expired')).format(
+                    'MMMM Do YYYY, h:mm:ss a',
+                  )}{' '}
+                </Text>
               </Text>
+            </CardItem>
+            <CardItem>
+              <Text style={{fontSize: 12}}>
+                {' '}
+                ${global.navigation.getParam('ticketcost')} por boleto
+              </Text>
+            </CardItem>
+            <CardItem>
+              <Text style={{fontSize: 12}}>
+                {' '}
+                {global.navigation.getParam('sold')}/
+                {global.navigation.getParam('tickets')} boletos vendidos
+              </Text>
+            </CardItem>
+            <CardItem>
+              <View style={styles.container}>
+                <Animated.View
+                  style={[
+                    styles.inner,
+                    {width: global.navigation.getParam('tickets') + '%'},
+                  ]}
+                />
+                {/*<Animated.Text style={styles.label}>
+                            {this.state.progressStatus}%
+                          </Animated.Text>*/}
+              </View>
             </CardItem>
             <CardItem style={{alignSelf: 'center'}}>
               <TouchableOpacity
@@ -144,7 +173,8 @@ export default class Details extends Component {
             </CardItem>
             <CardItem style={{alignSelf: 'center'}}>
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                Total: $200
+                Total: $
+                {this.state.counter * global.navigation.getParam('ticketcost')}
               </Text>
             </CardItem>
             <CardItem style={{alignSelf: 'center'}}>
@@ -153,7 +183,7 @@ export default class Details extends Component {
               </Button>
             </CardItem>
             <CardItem>
-              <Text style={{fontSize: 15}}>
+              <Text style={{fontSize: 12}}>
                 {global.navigation.getParam('description')}
               </Text>
             </CardItem>
@@ -161,6 +191,7 @@ export default class Details extends Component {
 
           <View></View>
         </Content>
+        {/* 
         <Footer>
           <FooterTab>
             <Button transparent>
@@ -181,6 +212,7 @@ export default class Details extends Component {
             </Button>
           </FooterTab>
         </Footer>
+        */}
       </Container>
     );
   }
@@ -188,18 +220,25 @@ export default class Details extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  loader: {
-    flex: 1,
+    width: '100%',
+    height: 0,
+    borderColor: '#B2B8D8',
+    borderWidth: 3,
+    borderRadius: 30,
+    marginTop: 10,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
   },
-  list: {
-    paddingVertical: 4,
-    margin: 5,
-    backgroundColor: '#fff',
+  inner: {
+    width: '100%',
+    height: 10,
+    borderRadius: 15,
+    backgroundColor: '#0028F7',
+  },
+  label: {
+    fontSize: 23,
+    color: 'black',
+    position: 'absolute',
+    zIndex: 1,
+    alignSelf: 'center',
   },
 });

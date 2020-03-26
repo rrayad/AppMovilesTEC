@@ -36,12 +36,16 @@ export default class Home extends Component {
       add1: false,
       add2: false,      
       add3: false,      
-
+      data        : [],
+      dataBackup  : [],
       getData: [],
     };
   }
 
-  static navigationOptions = () => {
+  static navigationOptions = ({navigation}) => {
+
+    const {params} =  navigation.state
+
     return {
       swipeEnabled: false,
       gestureResponseDistance: {
@@ -55,7 +59,9 @@ export default class Home extends Component {
           </Button>
 
           <Item>
-            <Input placeholder="Buscar..." />
+            <Input placeholder="Buscar..."   onChangeText= { text => 
+            params.handleRemove(text)
+          } />
             <Icon name="people" />
           </Item>
 
@@ -76,7 +82,8 @@ export default class Home extends Component {
   };
 
   componentDidMount() {
-    //this.props.navigation.setParams({handleRemove: this.removeVehicle});
+    this.props.navigation.setParams({handleRemove: this.setSearchText});
+    
     ////////////////////////////////////////////[ GET INFO FROM DB ]////////////////////////////////////////////////////
     fetch('https://rifas.yobiss.com/raffles/list', {
       method: 'get',
@@ -100,7 +107,7 @@ export default class Home extends Component {
   }
 
   openMenu = () => {      
-    console.log(this.state.add2)  
+    
     this.setState({add2: !this.state.add2});
   };
   openMenu2 = () => {    
@@ -109,6 +116,22 @@ export default class Home extends Component {
   };
 
   
+  setSearchText = (event) => {    
+    console.log(event)
+    searchText = event;
+    data       = products;
+    searchText = searchText.trim().toLowerCase();
+
+   data = data.filter(l => {
+    return l.title.toLowerCase().match( searchText );
+   });
+
+   this.setState({
+    data : data
+    });
+
+   }
+
   render() {
     return (
       <Container>
@@ -225,7 +248,7 @@ export default class Home extends Component {
         </Header>
         <Content style={{top: -30}}>
           <FlatList
-            data={products}
+            data={this.state.data}
             renderItem={({item}) => (
               <Content>
                 <Card>

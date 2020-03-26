@@ -23,8 +23,10 @@ export default class Demo extends Component {
   };
 
   static navigationOptions = {header: null};
+  
 
-  componentWillMount() {
+  componentDidMount() {
+    console.disableYellowBox = true;
     this.keyboardWillShowSub = Keyboard.addListener(
       'keyboardWillShow',
       this.keyboardWillShow,
