@@ -82,7 +82,7 @@ export default class Announcement extends Component {
     //this.props.navigation.setParams({handleRemove: this._storeData});
     this.props.navigation.setParams({funSearchText: this.setSearchText});
     ////////////////////////////////////////////[ GET INFO FROM DB ]////////////////////////////////////////////////////
-    fetch('http://0.0.0.0:8080/raffles/get/seller/5ruben/', {
+    fetch('https://0b0d37e6.ngrok.io/raffles/get/seller/5ruben/', {
       method: 'get',
       /*headers: new Headers({
         Authorization:
@@ -108,11 +108,12 @@ export default class Announcement extends Component {
     return (
       <Container>
         <View style={{padding: 20}}>
-          <Text style={{fontSize:20, fontWeight:"bold"}}>Mis anuncios</Text>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>Mis anuncios</Text>
           <Text />
           <Icon
             name="add"
             style={{fontSize: 40, color: 'blue', fontWeight: 'bold'}}
+            onPress={() => this.props.navigation.push('CreateRaffle01')}
           />
         </View>
         {/* LISTA PRINCIPAL */}
@@ -152,9 +153,7 @@ export default class Announcement extends Component {
                           <CheckBox color="blue" />
                           <Body>
                             <Text note>
-                              {moment(item.created).format(
-                                'MMMM Do YYYY',
-                              )}
+                              {moment(item.created).format('MMMM Do YYYY')}
                             </Text>
                           </Body>
                         </ListItem>
@@ -162,9 +161,7 @@ export default class Announcement extends Component {
                           <CheckBox color="red" />
                           <Body>
                             <Text note>
-                              {moment(item.created).format(
-                                'MMMM Do YYYY',
-                              )}
+                              {moment(item.created).format('MMMM Do YYYY')}
                             </Text>
                           </Body>
                         </ListItem>
@@ -184,7 +181,7 @@ export default class Announcement extends Component {
                       style={[styles.inner, {width: item.sold + '%'}]}
                     />
                     <Animated.Text style={styles.label}>
-                      {((item.sold *100)/item.tickets).toFixed(0)}%
+                      {((item.sold * 100) / item.tickets).toFixed(0)}%
                     </Animated.Text>
                   </View>
                 </Card>

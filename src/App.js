@@ -10,6 +10,10 @@ import SideScreen from './screens/SideScreen';
 import Announcement from './screens/MyAnnouncements/Announcement';
 
 import CreateRaffle01 from './screens/CreateRaffle/01';
+import CreateRaffle02 from './screens/CreateRaffle/02';
+import CreateRaffle03 from './screens/CreateRaffle/03';
+
+import CreateAcount01 from './screens/BankAcount/01';
 
 import {Drawer} from 'native-base';
 
@@ -22,10 +26,15 @@ const AppNavigator = createAppContainer(
       Details: Details,
       SideScreen: SideScreen,
       Announcement: Announcement,
+      //crear rifas
       CreateRaffle01: CreateRaffle01,
+      CreateRaffle02: CreateRaffle02,
+      CreateRaffle03: CreateRaffle03,
+      //create acount
+      CreateAcount01: Login,
     },
     {
-      initialRouteName: 'Announcement',
+      initialRouteName: 'Home',
     },
   ),
 );

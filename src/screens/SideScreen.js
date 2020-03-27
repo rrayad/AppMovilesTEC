@@ -79,7 +79,10 @@ export default class SideScreen extends Component {
           </Content>
         </Header>
         <Left>
-          <Button iconLeft transparent>
+          <Button
+            iconLeft
+            transparent
+            onPress={this.closeDrawer(() => MainRouter().navigate('Home'))}>
             <Icon name="home" />
             <Text>Home</Text>
           </Button>

@@ -98,7 +98,7 @@ export default class Home extends Component {
     //this.props.navigation.setParams({handleRemove: this._storeData});
     this.props.navigation.setParams({funSearchText: this.setSearchText});
     ////////////////////////////////////////////[ GET INFO FROM DB ]////////////////////////////////////////////////////
-    fetch('http://0.0.0.0:8080/raffles/list', {
+    fetch('https://0b0d37e6.ngrok.io/raffles/list', {
       method: 'get',
       /*headers: new Headers({
         Authorization:
@@ -216,7 +216,7 @@ export default class Home extends Component {
             )}
           />
         </Content>
-        
+
       </Container>
     );
   }
