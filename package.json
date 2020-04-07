@@ -9,12 +9,23 @@
     "test": "jest",
     "lint": "eslint ."
   },
+  "keywords": [
+    "openpay",
+    "react",
+    "react-native",
+    "payments",
+    "ios",
+    "android",
+    "react-native-component",
+    "credit-card"
+  ],
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
     "axios": "^0.19.2",
     "firebase": "^7.9.3",
     "moment": "^2.24.0",
     "native-base": "^2.13.8",
+    "openpay-react-native": "^1.0.3",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-chart-kit": "^5.1.1",
@@ -24,9 +35,17 @@
     "react-native-screens": "^2.0.0-beta.8",
     "react-native-svg": "^11.0.1",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-webview": "^9.0.1",
     "react-navigation": "^4.1.1",
     "react-navigation-drawer": "^2.4.2",
-    "react-navigation-stack": "^2.1.1"
+    "react-navigation-stack": "^2.1.1",
+    "buffer": "^5.2.0",
+    "react-native-credit-card-input-fullpage": "^0.2.0",
+    "react-native-device-info": "^0.22.2",
+    "react-native-elements": "^0.19.1",
+    "sprintf-js": "^1.1.1",
+    "user": "0.0.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

@@ -31,10 +31,10 @@ const AppNavigator = createAppContainer(
       CreateRaffle02: CreateRaffle02,
       CreateRaffle03: CreateRaffle03,
       //create acount
-      CreateAcount01: Login,
+      CreateAcount01: CreateAcount01,
     },
     {
-      initialRouteName: 'Home',
+      initialRouteName: 'CreateAcount01',
     },
   ),
 );

@@ -1,92 +1,54 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {
-  Container,
-  Header,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Text,
-  Picker,
-  Icon,
-  Textarea,
-  Right,
-  Button,
-  Footer,
-  DatePicker,
-  View,
-} from 'native-base';
+import {Container, Content, Label, Text, Button, Footer} from 'native-base';
+import Openpay, {createDeviceSessionId} from 'openpay-react-native';
+
 export default class CreateAcount01 extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selected2: '',
+      loading: false,
     };
-    this.state = {chosenDate: new Date()};
-    this.setDate = this.setDate.bind(this);
   }
 
-  setDate(newDate) {
-    this.setState({chosenDate: newDate});
-  }
+  successToken = response => {
+    const deviceSessionId = createDeviceSessionId();
+    console.log('createDeviceSessionId', deviceSessionId);
+    console.log('successToken', response);
+    this.setState(() => ({loading: false}));
+  };
+
+  failToken = response => {
+    console.log('failToken', response);
+  };
 
   render() {
+    const address = {
+      city: 'Querétaro',
+      country_code: 'MX',
+      postal_code: '76900',
+      line1: 'Av 5 de Febrero',
+      line2: 'Roble 207',
+      line3: 'Col Carrillo',
+      state: 'Queretaro',
+    };
+
     console.disableYellowBox = true;
     return (
       <Container>
         <Content style={{padding: 10}}>
-        
           <Label style={{color: '#00147E'}}>Agregar cuenta bancaria</Label>
 
-          <Form>
-            <Item stackedLabel>
-              <Label style={{color: '#00147E'}}>Nombre de la tarjeta</Label>
-              <Input keyboardType="decimal-pad" />
-            </Item>
-
-            <Item stackedLabel>
-              <Label style={{color: '#00147E'}}>Número de la tarjeta</Label>
-              <Input keyboardType="decimal-pad" />
-            </Item>
-            <DatePicker
-              defaultDate={new Date(2020, 3, 3)}
-              minimumDate={new Date(2020, 3, 3)}
-              maximumDate={new Date(2022, 12, 31)}
-              locale={'es'}
-              Icon={<Icon name="arrow-down" />}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={'slide'}
-              androidMode={'default'}
-              placeHolderText="Mes de vencimiento"
-              textStyle={{color: 'green'}}
-              placeHolderTextStyle={{color: '#00147E'}}
-              onDateChange={this.setDate}
-              disabled={false}
-            />
-            <DatePicker
-              defaultDate={new Date(2020, 3, 3)}
-              minimumDate={new Date(2020, 3, 3)}
-              maximumDate={new Date(2022, 12, 31)}
-              locale={'es'}
-              Icon={<Icon name="arrow-down" />}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={'slide'}
-              androidMode={'default'}
-              placeHolderText="Año de vencimiento"
-              textStyle={{color: 'green'}}
-              placeHolderTextStyle={{color: '#00147E'}}
-              onDateChange={this.setDate}
-              disabled={false}
-            />
-            <Item stackedLabel>
-              <Label style={{color: '#00147E'}}>CVV</Label>
-              <Label></Label>
-            </Item>
-          </Form>
+          <Openpay
+            isProductionMode={false}
+            merchantId="mze08xpn4nwebj28vkub"
+            publicKey="pk_92d1db787d64494991fb0416ef05467e"
+            address={address}
+            successToken={this.successToken}
+            failToken={this.failToken}
+            loading={this.state.loading}
+          />
         </Content>
         <Footer>
           <Button bordered onPress={() => this.props.navigation.goBack()}>
