@@ -65,3 +65,18 @@ npx react-native link
 ```
 -> Copy bundle resources
 ```
+
+
+### Inicializar emulador ios especifico 
+```
+npx react-native run-ios --simulator="iPhone 6s"
+```
+
+### Cargar registro ANDROID
+```
+  export ANDROID_HOME=$HOME/Library/Android/sdk
+  export PATH=$PATH:$ANDROID_HOME/emulator
+  export PATH=$PATH:$ANDROID_HOME/tools
+  export PATH=$PATH:$ANDROID_HOME/tools/bin
+  export PATH=$PATH:$ANDROID_HOME/platform-tools
+```

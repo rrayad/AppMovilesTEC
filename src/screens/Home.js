@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {Component} from 'react';
-import {StyleSheet, Animated, View} from 'react-native';
+import {StyleSheet, Animated, Dimensions} from 'react-native';
 import moment from 'moment';
 import {FlatList} from 'react-native-gesture-handler';
 import {
@@ -17,13 +17,18 @@ import {
   Card,
   CardItem,
   Thumbnail,
+  StatusBar,
+  Right,
 } from 'native-base';
+const window = Dimensions.get('window');
+export const IMAGE_HEIGHT = window.height / 6;
+export const IMAGE_WIDTH = window.width / 1.5;
 
-import {SimpleClousure} from '../SimpleClousure'
+import SafeAreaView from 'react-native-safe-area-view';
+import {SimpleClousure} from '../SimpleClousure';
 export const MainRouter = SimpleClousure();
 
 export default class Home extends Component {
-
   constructor(props) {
     super(props);
 
@@ -35,8 +40,7 @@ export default class Home extends Component {
       allProducts: [],
     };
 
-    MainRouter(props.navigation)
-
+    MainRouter(props.navigation);
   }
   anim = new Animated.Value(0);
   componentDidMount() {
@@ -51,50 +55,50 @@ export default class Home extends Component {
       toValue: 100,
       duration: 1,
     }).start();
-
   };
 
-  static navigationOptions = ({navigation}) => {
-    const {params} = navigation.state;
-    //quitar warnings
-    console.disableYellowBox = true;
-    return {
-      swipeEnabled: true,
-      gestureResponseDistance: {
-        horizontal: -1,
-        vertical: -1,
-      },
-      header: (
-        <Header searchBar rounded>
-          <Button transparent>
-            <Icon name="menu" onPress={() => Home.openDrawer()} />
-          </Button>
+  // static navigationOptions = ({navigation}) => {
+  //   const {params} = navigation.state;
+  //   //quitar warnings
+  //   console.disableYellowBox = true;
+  //   return {
+  //     swipeEnabled: true,
+  //     gestureResponseDistance: {
+  //       horizontal: -1,
+  //       vertical: -1,
+  //     },
+  //     header: (
+  //       <Header searchBar rounded>
+  //         <Button transparent>
+  //           <Icon name="menu" onPress={() => Home.openDrawer()} />
+  //         </Button>
 
-          <Item>
-            <Input
-              placeholder="Buscar..."
-              onChangeText={text => params.funSearchText(text)}                            
-            />
-            <Icon Button name="people"/>
-          </Item>
+  //         <Item>
+  //           <Input
+  //             placeholder="Buscar..."
+  //             onChangeText={text => params.funSearchText(text)}
+  //           />
+  //           <Icon Button name="people"/>
+  //         </Item>
 
-          <Button transparent>
-            <Icon name="funnel"></Icon>
-          </Button>
-        </Header>
-      ),
+  //         <Button transparent>
+  //           <Icon name="funnel"></Icon>
+  //         </Button>
+  //       </Header>
+  //     ),
 
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      headerTintColor: '#626262',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    };
-  };
+  //     headerStyle: {
+  //       backgroundColor: '#fff',
+  //     },
+  //     headerTintColor: '#626262',
+  //     headerTitleStyle: {
+  //       fontWeight: 'bold',
+  //     },
+  //   };
+  // };
 
   componentDidMount() {
+    console.disableYellowBox = true;
     //this.props.navigation.setParams({handleRemove: this._storeData});
     this.props.navigation.setParams({funSearchText: this.setSearchText});
     ////////////////////////////////////////////[ GET INFO FROM DB ]////////////////////////////////////////////////////
@@ -121,137 +125,154 @@ export default class Home extends Component {
   }
 
   setSearchText = event => {
-    
-    const par = {"filter" : {"title":"Lupa"}};
-    axios.get('http://0.0.0.0:8080/raffles/list', par)
-    .then(data => 
-      console.log(data.data[0].title)      
-      )
-}
+    const par = {filter: {title: 'Lupa'}};
+    axios
+      .get('http://0.0.0.0:8080/raffles/list', par)
+      .then(data => console.log(data.data[0].title));
+  };
+  static navigationOptions = {header: null};
 
   render() {
     //const {navigation} = this.props;
-
     return (
-      <Container>
+      <Container style={styles.container}>
         {/* FILTROS DE BUSQUEDA */}
-        <Header style={{top: -40, height: 140, backgroundColor: '#00147E'}}>
-          <FlatList
-            horizontal={true}
-            data={filters}
-            renderItem={({item}) => (
-              <View>
-                <Card>
-                  <CardItem>
-                    <Body style={{alignItems: 'center'}}>
-                      <Thumbnail
-                        source={{
-                          uri: item.image,
-                        }}
-                      />
-                      <Text>{item.type}</Text>
-                      <Text note>GeekyAnts</Text>
-                    </Body>
-                  </CardItem>
-                </Card>
-              </View>
-            )}
-          />
+        <Header style={styles.header} searchBar rounded>
+          <Button transparent light>
+          <Icon name="menu" onPress={() => Home.openDrawer()} />
+          </Button>
+          <Item>
+            <Input placeholder="Buscar..." />
+            <Icon name="search" />
+          </Item>
+          <Button transparent light>
+            <Icon name="funnel" />
+          </Button>
         </Header>
-
         {/* LISTA PRINCIPAL */}
-        <Content style={{top: -30}}>
-          <FlatList
-            data={global.allProducts}
-            renderItem={({item}) => (
-              <Content>
-                <Card>
-                  <CardItem
-                    header
-                    button
-                    onPress={() =>
-                      this.props.navigation.push('Details', {
-                        title: item.title,
-                        likes: item.likes,
-                        unlikes: item.unlikes,
-                        comments: item.comments,
-                        pictures: item.pictures,
-                        description: item.description,
-                        expired: item.expired,
-                        ticketcost: item.ticketcost,
-                        sold: item.sold,
-                        tickets: item.tickets,
-                      })
-                    }>
-                    <Left>
-                      <Thumbnail square source={{uri: item.pictures[0]}} />
-                      <Body>
-                        <Text>{item.title}</Text>
-                        <Text note>
-                          Fecha de vencimiento:{' '}
-                          {moment(item.expired).format(
-                            'MMMM Do YYYY, h:mm:ss a',
-                          )}
-                        </Text>
-                        <Text note>Costo del Boleto: ${item.ticketcost}</Text>
-                        <Text note>
-                          {item.sold}/{item.tickets} boletos
-                        </Text>
-                        <View style={styles.container}>
-                          <Animated.View
-                            style={[
-                              styles.inner,
-                              {width: this.state.progressStatus + '%'},
-                            ]}
-                          />
-                          {/*<Animated.Text style={styles.label}>
-                            {this.state.progressStatus}%
-                          </Animated.Text>*/}
-                        </View>
-                      </Body>
-                    </Left>
-                  </CardItem>
-                </Card>
-              </Content>
-            )}
-          />
-        </Content>
 
+        <FlatList
+          data={raffles}
+          renderItem={({item}) => (
+            <Content>
+              <Card style={styles.card}>
+                <CardItem
+                  header
+                  button
+                  onPress={() =>
+                    this.props.navigation.push('Details', {
+                      title: item.title,
+                      likes: item.likes,
+                      unlikes: item.unlikes,
+                      comments: item.comments,
+                      pictures: item.pictures,
+                      description: item.description,
+                      expired: item.expired,
+                      ticketcost: item.ticketcost,
+                      sold: item.sold,
+                      tickets: item.tickets,
+                    })
+                  }>
+                  <Left>
+                    <Thumbnail square source={{uri: item.picture}} />
+                    <Body>
+                      <Text>{item.title}</Text>
+                      <Text note>
+                        Vence:{' '}
+                        {moment(item.expired).format('MMMM Do YYYY, h:mm:ss a')}
+                      </Text>
+                      <Text note>${item.ticketcost}</Text>
+                      <Text note>
+                        {item.sold}/{item.tickets} boletos
+                      </Text>
+                      {/*<View style={styles.container}>
+                        <Animated.View
+                          style={[
+                            styles.inner,
+                            {width: this.state.progressStatus + '%'},
+                          ]}
+                        />
+                        <Animated.Text style={styles.label}>
+                            {this.state.progressStatus}%
+                          </Animated.Text>
+                      </View>*/}
+                    </Body>
+                  </Left>
+                </CardItem>
+              </Card>
+            </Content>
+          )}
+        />
       </Container>
     );
   }
 }
 
-const filters = [
+const raffles = [
   {
-    type: 'Mejores Vendidos',
-    image:
+    title: 'Patalla 50" atvio',
+    date: '13/01/2020',
+    ticketcost: '500',
+    sold: '10',
+    tickets: '100',
+    picture:
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+    description: 'description',
+  },
+  {
+    title: 'Patalla 50" atvio',
+    date: '13/01/2020',
+    ticketcost: '500',
+    sold: '10',
+    tickets: '100',
+    picture:
+      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+    description: 'description',
+  },
+  {
+    title: 'Patalla 50" atvio',
+    date: '13/01/2020',
+    ticketcost: '500',
+    sold: '10',
+    tickets: '100',
+    picture:
       'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
     description: 'description',
   },
 ];
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#26008D',
+    paddingTop: 0,
+  },
   container: {
-    width: '100%',
-    height: 0,
-    borderColor: '#B2B8D8',
-    borderWidth: 3,
-    borderRadius: 30,
-    marginTop: 10,
-    justifyContent: 'center',
+    backgroundColor: '#F6F5FB',
   },
-  inner: {
-    width: '100%',
-    height: 10,
-    borderRadius: 15,
-    backgroundColor: '#0028F7',
+  card: {
+    backgroundColor: '#FFFF',
   },
-  label: {
-    fontSize: 23,
-    color: 'black',
-    position: 'absolute',
-    zIndex: 1,
-    alignSelf: 'center',
-  },
+
+  // container: {
+  //   width: '100%',
+  //   height: 0,
+  //   borderColor: '#B2B8D8',
+  //   borderWidth: 3,
+  //   borderRadius: 30,
+  //   marginTop: 10,
+  //   justifyContent: 'center',
+  // },
+  // inner: {
+  //   width: '100%',
+  //   height: 10,
+  //   borderRadius: 15,
+  //   backgroundColor: '#0028F7',
+  // },
+  // label: {
+  //   fontSize: 23,
+  //   color: 'black',
+  //   position: 'absolute',
+  //   zIndex: 1,
+  //   alignSelf: 'center',
+  // },
 });

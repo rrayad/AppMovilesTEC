@@ -1,8 +1,6 @@
-import React, {Component, Container} from 'react';
-import {StyleSheet} from 'react-native';
+import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer';
 import Login from './screens/Login';
 import Home from './screens/Home';
 import Details from './screens/Details';
@@ -34,7 +32,7 @@ const AppNavigator = createAppContainer(
       CreateAcount01: CreateAcount01,
     },
     {
-      initialRouteName: 'CreateAcount01',
+      initialRouteName: 'Home',
     },
   ),
 );

@@ -6,24 +6,55 @@ import {
   TouchableOpacity,
   Animated,
   Keyboard,
+  StatusBar,
+  AsyncStorage,
 } from 'react-native';
+import {Icon, Button} from 'native-base';
 import styles, {IMAGE_HEIGHT, IMAGE_HEIGHT_SMALL} from './styles';
 import logo from '../images/login/logo.png';
+import {LoginButton, AccessToken} from 'react-native-fbsdk';
 
 export default class Demo extends Component {
   constructor(props) {
     super(props);
-
     this.keyboardHeight = new Animated.Value(0);
     this.imageHeight = new Animated.Value(IMAGE_HEIGHT);
   }
   state = {
-    username: 'demos',
-    password: 'demos',
+    userName: '',
+    password: '',
+    userPicture: 'https://i.picsum.photos/id/133/400/400.jpg',
+    userEmail: '',
   };
 
+  _storeData = async json => {
+    console.log(json);
+    try {
+      await AsyncStorage.setItem('userName', json.name);
+      await AsyncStorage.setItem('userPicture', json.picture.data.url);
+      await AsyncStorage.setItem('userEmail', json.email);
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+  initUser(token) {
+    console.log(token);
+    fetch(
+      'https://graph.facebook.com/v6.0/me?fields=id,name,email,about,address,birthday,gender,link,location,picture&access_token=' +
+        token,
+    )
+      .then(response => response.json())
+      .then(json => {
+        this._storeData(json);
+        this.props.navigation.push('Home');
+      })
+      .catch(() => {
+        reject('ERROR GETTING DATA FROM FACEBOOK');
+      });
+  }
+
   static navigationOptions = {header: null};
-  
 
   componentDidMount() {
     console.disableYellowBox = true;
@@ -71,6 +102,7 @@ export default class Demo extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
         <Animated.View
           style={[styles.container, {paddingBottom: this.keyboardHeight}]}>
           <Animated.Image
@@ -78,12 +110,13 @@ export default class Demo extends Component {
             style={[styles.logo, {height: this.imageHeight}]}
           />
           <View style={styles.container}>
-            <Text style={styles.welcome}>WELCOME</Text>
+            <Text style={styles.welcome}>INICIAR SESIÓN</Text>
 
             <View style={styles.emailContainer}>
               <TextInput
                 style={styles.textInput}
-                placeholder="Email"
+                placeholder="Usuario"
+                placeholderTextColor="#7962B9"
                 keyboardType="email-address"
                 onChangeText={value => this.setState({username: value})}
                 value={this.state.username}
@@ -92,7 +125,8 @@ export default class Demo extends Component {
             <View style={styles.passwordContainer}>
               <TextInput
                 style={styles.textInput}
-                placeholder="Password"
+                placeholder="Contraseña"
+                placeholderTextColor="#7962B9"
                 secureTextEntry={true}
                 onChangeText={value => this.setState({password: value})}
                 value={this.state.password}
@@ -101,7 +135,7 @@ export default class Demo extends Component {
 
             <TouchableOpacity>
               <View style={styles.forgotPassword}>
-                <Text style={styles.forgotText}>¿Olvide mi password?</Text>
+                <Text style={styles.forgotText}>OLVIDÉ MI CONTRASEÑA</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity>
@@ -110,19 +144,33 @@ export default class Demo extends Component {
                   button
                   onPress={() =>
                     this.props.navigation.push('Home', {
-                      username: this.state.username,
+                      userName: this.state.userName,
+                      userPicture: this.state.userPicture,
+                      userEmail: this.state.userEmail,
                     })
                   }
                   style={styles.buttonText}>
-                  Iniciar
+                  INICIAR SESIÓN
                 </Text>
               </View>
             </TouchableOpacity>
+            <Text style={styles.iniciaCon}>Inicia sesión con:</Text>
+            <LoginButton
+              onLoginFinished={(error, result) => {
+                if (error) {
+                  console.log('login has error: ' + result.error);
+                } else if (result.isCancelled) {
+                  console.log('login is cancelled.');
+                } else {
+                  AccessToken.getCurrentAccessToken().then(data => {
+                    this.initUser(data.accessToken);
+                  });
+                }
+              }}
+              onLogoutFinished={() => console.log('logout.')}
+            />
           </View>
         </Animated.View>
-        <View style={styles.normalContainer}>
-          <Text style={styles.normalText}>¿No tienes cuenta?</Text>
-        </View>
         <TouchableOpacity>
           <View style={styles.createAccount}>
             <Text style={styles.createText}>Crear una núeva</Text>
