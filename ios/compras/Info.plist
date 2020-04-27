@@ -37,21 +37,19 @@
 			</dict>
 		</dict>
 	</dict>
-
 	<key>CFBundleURLTypes</key>
-<array>
-  <dict>
-  <key>CFBundleURLSchemes</key>
-  <array>
-    <string>fb1056864104425258</string>
-  </array>
-  </dict>
-</array>
-<key>FacebookAppID</key>
-<string>1056864104425258</string>
-<key>FacebookDisplayName</key>
-<string>rrayad</string>
-
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1056864104425258</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1056864104425258</string>
+	<key>FacebookDisplayName</key>
+	<string>rrayad</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>UIAppFonts</key>

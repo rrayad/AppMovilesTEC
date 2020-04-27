@@ -3,28 +3,28 @@ import React, {Component} from 'react';
 import {StyleSheet, Animated, Dimensions} from 'react-native';
 import moment from 'moment';
 import {FlatList} from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {
   Container,
   Header,
   Content,
   Item,
   Input,
-  Icon,
   Text,
   Button,
   Left,
   Body,
   Card,
+  Icon as Icon2,
   CardItem,
   Thumbnail,
-  StatusBar,
-  Right,
 } from 'native-base';
 const window = Dimensions.get('window');
-export const IMAGE_HEIGHT = window.height / 6;
+export const IMAGE_HEIGHT = window.height / 5;
 export const IMAGE_WIDTH = window.width / 1.5;
 
-import SafeAreaView from 'react-native-safe-area-view';
+import {SliderBox} from 'react-native-image-slider-box';
+
 import {SimpleClousure} from '../SimpleClousure';
 export const MainRouter = SimpleClousure();
 
@@ -38,6 +38,13 @@ export default class Home extends Component {
       loading: false,
       progressStatus: 50,
       allProducts: [],
+      images: [
+        'https://keilahradio.com/wp-content/uploads/2018/11/104325883_gettyimages-966879354.jpg',
+        'https://www.lalolaapp.com/wp-content/uploads/2018/10/ofertas-01.png',
+        'https://www.muycomputer.com/wp-content/uploads/2018/07/Rebajas-Verano-PlayStation-Store-e1532535132599.png',
+        'https://www.golfelchaparral.com/wp-content/uploads/2016/06/oferta-verano-2016-el-chaparral-golf-club-costa-del-sol.jpg', // Network image
+        require('../images/login/firstImageCarrousel.png'), // Local image
+      ],
     };
 
     MainRouter(props.navigation);
@@ -139,18 +146,51 @@ export default class Home extends Component {
         {/* FILTROS DE BUSQUEDA */}
         <Header style={styles.header} searchBar rounded>
           <Button transparent light>
-          <Icon name="menu" onPress={() => Home.openDrawer()} />
+          <Icon name="bars" onPress={() => Home.openDrawer()}   size={25} color="white" />            
           </Button>
           <Item>
             <Input placeholder="Buscar..." />
-            <Icon name="search" />
+            <Icon2 name="search" />
           </Item>
           <Button transparent light>
-            <Icon name="funnel" />
+          <Icon name="filter" onPress={() => Home.closeDrawer}  size={20} color="white" />            
           </Button>
         </Header>
         {/* LISTA PRINCIPAL */}
-
+        <SliderBox
+          sliderBoxHeight={IMAGE_HEIGHT}
+          images={this.state.images}
+          onCurrentImagePressed={index =>
+            console.warn(`image ${index} pressed`)
+          }
+          dotColor="#FFEE58"
+          inactiveDotColor="#90A4AE"
+          paginationBoxVerticalPadding={20}
+          autoplay
+          circleLoop
+          resizeMethod={'resize'}
+          resizeMode={'cover'}
+          paginationBoxStyle={{
+            position: 'absolute',
+            bottom: 0,
+            padding: 0,
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            paddingVertical: 10,
+          }}
+          dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            marginHorizontal: 0,
+            padding: 0,
+            margin: 0,
+            backgroundColor: 'rgba(246, 245, 251, 0.92)',
+          }}
+          ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
+          imageLoadingColor="#2196F3"
+        />
         <FlatList
           data={raffles}
           renderItem={({item}) => (
@@ -220,23 +260,23 @@ const raffles = [
     description: 'description',
   },
   {
-    title: 'Patalla 50" atvio',
+    title: 'Smartwatch Huawei Watch GT 2 Sport Negro',
     date: '13/01/2020',
     ticketcost: '500',
     sold: '10',
     tickets: '100',
     picture:
-      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+      'https://cdn1.coppel.com/images/catalog/pm/2432273-1.jpg',
     description: 'description',
   },
   {
-    title: 'Patalla 50" atvio',
+    title: 'Smartphone Xiaomi Redmi Note 8 64 GB Azul Desbloqueado',
     date: '13/01/2020',
     ticketcost: '500',
     sold: '10',
     tickets: '100',
     picture:
-      'https://www.asus.com/media/global/products/TuP2SsEBgN865xmv/P_setting_fff_1_90_end_500.png',
+      'https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/mg/gm/3pp/asr/e34f7e88-e192-4974-8834-1d1ae6e259d7_1.666dc7db40146170a074c5d3796737af.jpeg?odnHeight=2000&odnWidth=2000&odnBg=ffffff',
     description: 'description',
   },
 ];

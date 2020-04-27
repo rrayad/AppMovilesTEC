@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {StyleSheet, Dimensions, AsyncStorage} from 'react-native';
 const window = Dimensions.get('window');
@@ -12,7 +13,6 @@ import {
   ListItem,
   Left,
   Thumbnail,
-  Icon,
   Content,
   Button,
   Text,
@@ -30,9 +30,10 @@ export default class SideScreen extends Component {
     global.userEmail = '';
     global.userPicture = '';
     this.state = {
-      userName: '',
-      userEmail: '',
-      userPicture: '',
+      userName: 'Rubén Raya',
+      userEmail: 'traggame@hotmail.com',
+      userPicture:
+        'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2444798238877374&height=50&width=50&ext=1589937161&hash=AeQTWxpKQAtP31Wo',
     };
   }
 
@@ -65,15 +66,16 @@ export default class SideScreen extends Component {
                 <Left>
                   <Thumbnail
                     source={{
-                      uri: global.userPicture,
+                      uri: this.state.userPicture,
                     }}
+                    style={styles.profilePicture}
                   />
                 </Left>
                 <Body>
                   <Text style={styles.textName}>{this.state.userName}</Text>
                   <Text note style={styles.textEmail}>
                     {' '}
-                    {global.userEmail}{' '}
+                    {this.state.userEmail}{' '}
                   </Text>
                 </Body>
               </ListItem>
@@ -82,58 +84,87 @@ export default class SideScreen extends Component {
         </Header>
         <Left>
           <Button
-            iconLeft
             small
             light
             style={styles.button}
             onPress={this.closeDrawer(() => MainRouter().navigate('Home'))}>
-            <Icon name="home" />
+            <Icon name="home" size={20} backgroundColor="#fff" color="black" />
             <Text>Inicio</Text>
           </Button>
           <Button
-            badge
-            iconLeft
             small
             light
             style={styles.button}
             onPress={this.closeDrawer(() =>
               MainRouter().navigate('Announcement'),
             )}>
-            <Icon name="home" />
+            <Icon
+              name="shopping-basket"
+              size={18}
+              backgroundColor="#fff"
+              color="black"
+            />
             <Text>Rifas compradas</Text>
             <Badge style={styles.badge}>
               <Text style={styles.badgeText}>13</Text>
             </Badge>
           </Button>
           <Button iconLeft small light style={styles.button}>
-            <Icon name="home" />
+            <Icon
+              name="ticket-alt"
+              size={20}
+              backgroundColor="#fff"
+              color="black"
+            />
             <Text>Mis Rifas</Text>
           </Button>
           <Button iconLeft small light style={styles.button}>
-            <Icon name="home" />
+            <Icon name="truck" size={20} backgroundColor="#fff" color="black" />
             <Text>Envios</Text>
           </Button>
           <Button iconLeft small light style={styles.button}>
-            <Icon name="cuestion" />
+            <Icon
+              name="question"
+              size={20}
+              backgroundColor="#fff"
+              color="black"
+            />
             <Text>Preguntas de mis anuncions</Text>
             <Badge style={styles.badge}>
               <Text style={styles.badgeText}>7</Text>
             </Badge>
           </Button>
           <Button iconLeft small light style={styles.button}>
-            <Icon name="home" />
+            <Icon
+              name="credit-card"
+              size={20}
+              backgroundColor="#fff"
+              color="black"
+            />
             <Text>Métodos de pago</Text>
           </Button>
           <Button iconLeft small light style={styles.button}>
-            <Icon name="card" />
+            <Icon
+              name="cash-register"
+              size={20}
+              backgroundColor="#fff"
+              color="black"
+            />
+
             <Text>Métodos de cobro</Text>
           </Button>
           <Button iconLeft small light style={styles.button}>
-            <Icon name="oencil" />
+            <Icon
+              name="pencil-alt"
+              size={20}
+              backgroundColor="#fff"
+              color="black"
+            />
+
             <Text>Editar perfil</Text>
           </Button>
           <Button iconLeft small light style={styles.button}>
-            <Icon name="camera" />
+            <Icon name="video" size={20} backgroundColor="#fff" color="black" />
             <Text>Tutoriales</Text>
           </Button>
         </Left>
@@ -146,6 +177,15 @@ export default class SideScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  profilePicture: {
+    shadowColor: '#BBBBBB',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowRadius: 5,
+    shadowOpacity: 0.8,
+  },
   header: {
     height: IMAGE_HEIGHT,
     backgroundColor: '#4EEACF',
@@ -156,6 +196,7 @@ const styles = StyleSheet.create({
   footer: {backgroundColor: '#F6F5FB'},
   textName: {
     color: '#000000',
+    fontWeight: 'bold',
   },
   button: {
     backgroundColor: '#FFFFFF',
@@ -170,6 +211,7 @@ const styles = StyleSheet.create({
   },
   textEmail: {
     color: '#000000',
+    fontWeight: 'bold',
   },
   textCerrarSesion: {
     top: 15,

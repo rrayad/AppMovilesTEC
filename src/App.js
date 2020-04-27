@@ -32,7 +32,7 @@ const AppNavigator = createAppContainer(
       CreateAcount01: CreateAcount01,
     },
     {
-      initialRouteName: 'Home',
+      initialRouteName: 'Login',
     },
   ),
 );
