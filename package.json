@@ -24,7 +24,7 @@
     "axios": "^0.19.2",
     "buffer": "^5.2.0",
     "firebase": "^7.9.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "native-base": "^2.13.8",
     "openpay-react-native": "^1.0.3",
     "react": "16.9.0",
